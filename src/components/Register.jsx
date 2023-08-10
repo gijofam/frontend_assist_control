@@ -4,14 +4,32 @@ import { useForm } from 'react-hook-form';
 
 const Register = () => {
   const {register, handleSubmit, reset} = useForm()
-  // const [assistcontrol, setAssistControl] = useState()
+  const [worker, setWorker] = useState()
 
   const onSubmit = (data) => {
-    // console.log(data)
-    const URL = 'http://localhost:9000/api/v1/assistcontrol/register';
-    axios.post(URL, data)
-      .then(res => console.log(res.data))
+    console.log(data)
+
+    const URLpost = 'http://localhost:9000/api/v1/assistcontrol/register';
+    const URLuuid = `http://localhost:9000/api/v1/workers/${data.dni}`;
+
+    axios.get(URLuuid, data)
+      .then(res => setWorker(res.data)
+      )
       .catch(err => console.log(err))
+
+      // console.log(worker.id)
+
+      const assistData = {
+        workerId: `${worker?.id}`,
+        userId:'b22958eb-3470-491d-ac05-38b52332b60a',
+        turno: 'tarde',
+        date: ''
+      }
+     
+      axios.post(URLpost, assistData)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err))
+
     reset()
   }
 
