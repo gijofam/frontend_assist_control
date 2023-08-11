@@ -5,6 +5,16 @@ import { useForm } from 'react-hook-form';
 const Register = () => {
   const {register, handleSubmit, reset} = useForm()
   const [worker, setWorker] = useState()
+  const currentDate = new Date(); // Obtener la fecha y hora actual
+  const currentHour = currentDate.getHours(); // Obtener la hora actual
+  let horarioTurno = "";
+  currentHour < 12 ? horarioTurno = 'mañana': horarioTurno = 'tarde' 
+
+  // if (currentHour < 12) {
+  //   turno = "mañana";
+  // } else {
+  //   turno = "tarde";
+  // }
 
   const onSubmit = (data) => {
     console.log(data)
@@ -22,8 +32,7 @@ const Register = () => {
       const assistData = {
         workerId: `${worker?.id}`,
         userId:'b22958eb-3470-491d-ac05-38b52332b60a',
-        turno: 'tarde',
-        date: ''
+        turno: `${horarioTurno}`,
       }
      
       axios.post(URLpost, assistData)
